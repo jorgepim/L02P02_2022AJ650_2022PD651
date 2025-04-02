@@ -1,0 +1,55 @@
+﻿@* @{
+    ViewData["Title"] = "Listado de Libros";
+}
+
+<div class="container mt-4">
+    <div class="row">
+        <div class="col-md-8">
+            <h4>Libros Disponibles</h4>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Precio</th>
+                        <th>Autor</th>
+                        <th>Acción</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var libro in ViewBag.Libros)
+                    {
+                        <tr>
+                            <td>@Html.DisplayFor(modelItem => libro.Nombre)</td>
+                            <td>@Html.DisplayFor(modelItem => libro.Precio)</td>
+                            <td>@Html.DisplayFor(modelItem => libro.Autor.Nombre)</td>
+                            <td>
+                                @using (Html.BeginForm("AgregarLibro", "Carrito", FormMethod.Post))
+                                {
+                                    @Html.Hidden("idLibro", libro.Id)
+                                    @Html.Hidden("idPedido", ViewBag.IdPedido)
+                                    <button type="submit" class="btn btn-success">+ Agregar</button>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="col-md-4">
+            <h4>Carrito de Compras</h4>
+            <div class="card">
+                <div class="card-body">
+                    <h5>Total de Libros: @ViewBag.TotalLibros</h5>
+                    <h5>Total a Pagar (USD): @ViewBag.TotalPrecio</h5>
+                    @using (Html.BeginForm("CompletarVenta", "Carrito", FormMethod.Post))
+                    {
+                        @Html.Hidden("idPedido", ViewBag.IdPedido)
+                        <button type="submit" class="btn btn-primary">Completar</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ *@

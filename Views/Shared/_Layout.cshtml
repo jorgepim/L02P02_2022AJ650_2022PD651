@@ -10,7 +10,7 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+       @*  <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">L02P02_2022AJ650_2022PD651</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
@@ -31,7 +31,12 @@
                     </ul>
                 </div>
             </div>
-        </nav>
+        </nav> *@
+        <div class="container-fluid bg-dark text-white text-center p-4">
+            <img src="/images/UNICAES_Logo.png" alt="Logo" class="mb-3" style="width: 80px;">
+            <h2>Venta de Libros</h2>
+            <p>Seleccione los libros y posterior ingrese sus datos</p>
+        </div>
     </header>
     <div class="container">
         <main role="main" class="pb-3">
@@ -40,8 +45,9 @@
     </div>
 
     <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - L02P02_2022AJ650_2022PD651 - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+        <div class="container-fluid bg-dark text-white text-center p-3 mt-4">
+            <p>YYYY-DD-NN - NOMBRE DEL ALUMNO UNO</p>
+            <p>YYYY-DD-NN - NOMBRE DEL ALUMNO DOS</p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
