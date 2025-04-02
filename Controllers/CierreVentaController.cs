@@ -57,7 +57,7 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
             ViewBag.TotalPrecio = libros.Sum(l => l.precio);
             ViewBag.IdPedido = idPedido;
 
-            return View(cliente);  // Enviamos el modelo cliente correctamente
+            return View(cliente);  
         }
 
         [HttpPost]
@@ -68,7 +68,7 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
 
             if (pedido != null)
             {
-                pedido.estado = 'C'; // C = CERRADA
+                pedido.estado = 'C'; 
                 _context.SaveChanges();
                 return RedirectToAction("Confirmacion", "CierreVenta");
             }

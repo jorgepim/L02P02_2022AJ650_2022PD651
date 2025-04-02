@@ -57,7 +57,6 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Generar el nuevo ID de cliente manualmente
                 int newId = 1;
                 var lastCliente = _context.clientes.OrderByDescending(c => c.id).FirstOrDefault();
                 if (lastCliente != null)
@@ -71,7 +70,6 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
                 _context.clientes.Add(cliente);
                 await _context.SaveChangesAsync();
 
-                // Crear el encabezado del pedido
                 var pedidoEncabezado = new pedido_encabezado
                 {
                     id_cliente = cliente.id,
@@ -91,7 +89,6 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
                 _context.pedido_encabezado.Add(pedidoEncabezado);
                 await _context.SaveChangesAsync();
 
-                // Redirigir al carrito con el ID del pedido creado
                 return RedirectToAction("Index", "Carrito", new { idPedido = pedidoEncabezado.id });
             }
 
