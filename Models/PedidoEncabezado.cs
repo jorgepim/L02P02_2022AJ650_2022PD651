@@ -14,5 +14,6 @@ namespace L02P02_2022AJ650_2022PD651.Models
 
         public int CantidadLibros { get; set; }
         public decimal Total { get; set; }
+        public char estado { get; set; }
     }
 }
