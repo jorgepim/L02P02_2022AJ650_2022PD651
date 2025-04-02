@@ -1,32 +1,30 @@
-﻿@* @{
-    ViewData["Title"] = "Listado de Libros";
+﻿@{
+    ViewData["Title"] = "Venta de Libros";
 }
 
 <div class="container mt-4">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-8">
-            <h4>Libros Disponibles</h4>
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Nombre</th>
-                        <th>Precio</th>
-                        <th>Autor</th>
-                        <th>Acción</th>
-                    </tr>
-                </thead>
+            <h4 class="text-primary">Libros</h4>
+            <table class="table table-borderless">
                 <tbody>
                     @foreach (var libro in ViewBag.Libros)
                     {
                         <tr>
-                            <td>@Html.DisplayFor(modelItem => libro.Nombre)</td>
-                            <td>@Html.DisplayFor(modelItem => libro.Precio)</td>
-                            <td>@Html.DisplayFor(modelItem => libro.Autor.Nombre)</td>
                             <td>
+                                <div>
+                                    <strong>@libro.nombre</strong><br>
+                                    <small>Autor: @libro.autor_nombre</small>
+                                </div>
+                            </td>
+                            <td class="text-end">
+                                <span class="fw-bold">$@libro.precio</span>
+                            </td>
+                            <td class="text-end">
                                 @using (Html.BeginForm("AgregarLibro", "Carrito", FormMethod.Post))
                                 {
-                                    @Html.Hidden("idLibro", libro.Id)
-                                    @Html.Hidden("idPedido", ViewBag.IdPedido)
+                                    <input type="hidden" name="idLibro" value="@libro.id" />
+                                    <input type="hidden" name="idPedido" value="@ViewBag.IdPedido" />
                                     <button type="submit" class="btn btn-success">+ Agregar</button>
                                 }
                             </td>
@@ -37,19 +35,19 @@
         </div>
 
         <div class="col-md-4">
-            <h4>Carrito de Compras</h4>
-            <div class="card">
-                <div class="card-body">
-                    <h5>Total de Libros: @ViewBag.TotalLibros</h5>
-                    <h5>Total a Pagar (USD): @ViewBag.TotalPrecio</h5>
-                    @using (Html.BeginForm("CompletarVenta", "Carrito", FormMethod.Post))
-                    {
-                        @Html.Hidden("idPedido", ViewBag.IdPedido)
-                        <button type="submit" class="btn btn-primary">Completar</button>
-                    }
+            <h4 class="text-primary">Total Libros</h4>
+            <div class="card p-3">
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Total (USD)</h5>
+                    <span class="badge bg-primary text-white rounded-circle" style="font-size: 1.5rem;">@ViewBag.TotalLibros</span>
                 </div>
+                <h4 class="text-success text-end">$@ViewBag.TotalPrecio</h4>
+                @using (Html.BeginForm("CompletarVenta", "Carrito", FormMethod.Post))
+                {
+                    <input type="hidden" name="idPedido" value="@ViewBag.IdPedido" />
+                    <button type="submit" class="btn btn-info w-100">Completar</button>
+                }
             </div>
         </div>
     </div>
 </div>
- *@

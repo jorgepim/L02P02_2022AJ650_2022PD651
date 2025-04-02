@@ -7,13 +7,13 @@ namespace L02P02_2022AJ650_2022PD651.Models
         public LibreriaContext(DbContextOptions<LibreriaContext> options) : base(options)
         {
         }
-        public DbSet<Libro> Libros { get; set; }
-        public DbSet<Autor> Autores { get; set; }
-        public DbSet<Categoria> Categorias { get; set; }
-        public DbSet<PedidoEncabezado> PedidoEncabezados { get; set; }
-        public DbSet<PedidoDetalle> PedidoDetalles { get; set; }
-        public DbSet<Cliente> Clientes { get; set; }
-        public DbSet<ComentarioLibro> ComentariosLibros { get; set; }
+        public DbSet<libros> libros { get; set; }
+        public DbSet<autores> autores { get; set; }
+        public DbSet<categorias> categorias { get; set; }
+        public DbSet<pedido_encabezado> pedido_encabezado { get; set; }
+        public DbSet<pedido_detalle> pedido_detalle { get; set; }
+        public DbSet<clientes> clientes { get; set; }
+        public DbSet<comentarios_libros> comentarios_libros { get; set; }
 
     }
 }

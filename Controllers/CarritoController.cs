@@ -11,31 +11,43 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int idPedido)
+        public IActionResult Index(int idPedido=1)
         {
-            List<Libro> libros = (from l in _context.Libros
-                          select l).ToList();
+            var libros = (from l in _context.libros
+                          join a in _context.autores on l.id_autor equals a.id
+                          select new
+                          {
+                              l.id,
+                              l.nombre,
+                              l.descripcion,
+                              l.url_imagen,
+                              l.id_autor,
+                              autor_nombre = a.autor,
+                              l.id_categoria,
+                              l.precio,
+                              l.estado
+                          }).ToList();
             ViewBag.IdPedido = idPedido;
             ViewBag.Libros = libros;
 
-            var totalLibros = (from pd in _context.PedidoDetalles
-                               where pd.IdPedido == idPedido
+            var totalLibros = (from pd in _context.pedido_detalle
+                               where pd.id_pedido == idPedido
                                select pd).Count();
             ViewBag.TotalLibros = totalLibros;
 
             decimal totalPrecio = 0;
-            List<PedidoDetalle> detalles = (from pd in _context.PedidoDetalles
-                            where pd.IdPedido == idPedido
+            List<pedido_detalle> detalles = (from pd in _context.pedido_detalle
+                            where pd.id_pedido == idPedido
                             select pd).ToList();
 
             foreach (var detalle in detalles)
             {
-                Libro libro = (from l in _context.Libros
-                             where l.Id == detalle.IdLibro
+                libros libro = (from l in _context.libros
+                             where l.id == detalle.id_libro
                              select l).FirstOrDefault();
                 if (libro != null)
                 {
-                    totalPrecio += libro.Precio;
+                    totalPrecio += libro.precio;
                 }
             }
 
@@ -47,20 +59,28 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
         [HttpPost]
         public IActionResult AgregarLibro(int idLibro, int idPedido)
         {
-            Libro libro = (from l in _context.Libros
-                         where l.Id == idLibro
+            int newId = 1;
+            var lastDetalle = _context.pedido_detalle.OrderByDescending(pd => pd.id).FirstOrDefault();
+            if (lastDetalle != null)
+            {
+                newId = lastDetalle.id + 1;
+            }
+
+            var libro = (from l in _context.libros
+                         where l.id == idLibro
                          select l).FirstOrDefault();
 
             if (libro != null)
             {
-                PedidoDetalle pedidoDetalle = new PedidoDetalle
+                var pedidoDetalle = new pedido_detalle
                 {
-                    IdPedido = idPedido,
-                    IdLibro = idLibro,
-                    CreatedAt = DateTime.Now
+                    id = newId,
+                    id_pedido = idPedido,
+                    id_libro = idLibro,
+                    created_at = DateTime.Now
                 };
 
-                _context.PedidoDetalles.Add(pedidoDetalle);
+                _context.pedido_detalle.Add(pedidoDetalle);
                 _context.SaveChanges();
             }
 

@@ -2,13 +2,14 @@
 
 namespace L02P02_2022AJ650_2022PD651.Models
 {
-    public class Categoria
+    public class autores
     {
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required]
         [MaxLength(200)]
-        public string Nombre { get; set; }
+        public string autor { get; set; }
+
     }
 }
