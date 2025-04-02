@@ -1,0 +1,80 @@
+﻿@model L02P02_2022AJ650_2022PD651.Models.clientes
+
+@{
+    ViewData["Title"] = "Cierre de Venta";
+    var libros = ViewBag.Libros ;
+}
+
+<div class="container mt-5">
+    <div class="row">
+        <!-- Información del Cliente -->
+        <div class="col-md-8">
+            <h3>Proceso de venta</h3>
+            <h5>Datos del Cliente</h5>
+            <hr />
+            @if (Model != null)
+            {
+                <div class="mb-3 row">
+                    <div class="col-md-6">
+                        @Html.Label("nombre", "Nombre", new { @class = "form-label" })
+                        @Html.TextBox("nombre", Model.nombre, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                    <div class="col-md-6">
+                        @Html.Label("apellido", "Apellido", new { @class = "form-label" })
+                        @Html.TextBox("apellido", Model.apellido, new { @class = "form-control", @readonly = "readonly" })
+                    </div>
+                </div>
+                <div class="mb-3">
+                    @Html.Label("email", "Email", new { @class = "form-label" })
+                    @Html.TextBox("email", Model.email, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+                <div class="mb-3">
+                    @Html.Label("direccion", "Dirección", new { @class = "form-label" })
+                    @Html.TextBox("direccion", Model.direccion, new { @class = "form-control", @readonly = "readonly" })
+                </div>
+            }
+            else
+            {
+                <p class="text-danger">No se encontraron datos del cliente.</p>
+            }
+        </div>
+
+        <!-- Carrito de Libros -->
+        <div class="col-md-4">
+            <h4 class="text-primary">Carrito</h4>
+            <div class="card p-3">
+                <div>
+                    @if (libros != null && libros.Count > 0)
+                    {
+                        foreach (var libro in libros)
+                        {
+                            <div class="d-flex justify-content-between mb-2">
+                                <div>
+                                    <strong>@libro.nombre</strong><br>
+                                    <small>Autor: @libro.autor_nombre</small>
+                                </div>
+                                <span class="fw-bold">$@libro.precio</span>
+                            </div>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-center">No hay libros en el carrito</p>
+                    }
+                </div>
+                <hr />
+                <div class="d-flex justify-content-between align-items-center">
+                    <h5>Total (USD)</h5>
+                    <h4 class="text-success">$@ViewBag.TotalPrecio</h4>
+                </div>
+                <div class="text-center mt-3">
+                    @using (Html.BeginForm("CerrarVenta", "CierreVenta", FormMethod.Post))
+                    {
+                        <input type="hidden" name="idPedido" value="@ViewBag.IdPedido" />
+                        <button type="submit" class="btn btn-success w-100">Cerrar Venta</button>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

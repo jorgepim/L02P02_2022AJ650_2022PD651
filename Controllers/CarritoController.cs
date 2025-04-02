@@ -89,7 +89,7 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
 
         public IActionResult CompletarVenta(int idPedido)
         {
-            return RedirectToAction("CierreVenta", "Venta", new { idPedido = idPedido });
+            return RedirectToAction("Index", "CierreVenta", new { idPedido = idPedido });
         }
     }
 }
