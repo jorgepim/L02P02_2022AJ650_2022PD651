@@ -53,16 +53,51 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Nombre,Apellido,Email,Direccion,CreatedAt")] clientes cliente)
+        public async Task<IActionResult> Create(clientes cliente)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(cliente);
+                // Generar el nuevo ID de cliente manualmente
+                int newId = 1;
+                var lastCliente = _context.clientes.OrderByDescending(c => c.id).FirstOrDefault();
+                if (lastCliente != null)
+                {
+                    newId = lastCliente.id + 1;
+                }
+
+                cliente.id = newId;
+                cliente.created_at = DateTime.Now;
+
+                _context.clientes.Add(cliente);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+
+                // Crear el encabezado del pedido
+                var pedidoEncabezado = new pedido_encabezado
+                {
+                    id_cliente = cliente.id,
+                    cantidad_libros = 0,
+                    total = 0,
+                    estado = 'P'
+                };
+
+                int newPedidoId = 1;
+                var lastPedido = _context.pedido_encabezado.OrderByDescending(p => p.id).FirstOrDefault();
+                if (lastPedido != null)
+                {
+                    newPedidoId = lastPedido.id + 1;
+                }
+                pedidoEncabezado.id = newPedidoId;
+
+                _context.pedido_encabezado.Add(pedidoEncabezado);
+                await _context.SaveChangesAsync();
+
+                // Redirigir al carrito con el ID del pedido creado
+                return RedirectToAction("Index", "Carrito", new { idPedido = pedidoEncabezado.id });
             }
+
             return View(cliente);
         }
+
 
         // GET: Clientes/Edit/5
         public async Task<IActionResult> Edit(int? id)

@@ -10,7 +10,7 @@
             <h3>Proceso de venta</h3>
             <h5>Datos del Cliente</h5>
             <hr />
-            @using (Html.BeginForm("Create", "Cliente", FormMethod.Post))
+            @using (Html.BeginForm("Create", "Clientes", FormMethod.Post))
             {
                 @Html.ValidationSummary(true, "", new { @class = "text-danger" })
                 <div class="form-group row">

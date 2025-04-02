@@ -11,7 +11,7 @@ namespace L02P02_2022AJ650_2022PD651.Controllers
             _context = context;
         }
 
-        public IActionResult Index(int idPedido=1)
+        public IActionResult Index(int idPedido)
         {
             var libros = (from l in _context.libros
                           join a in _context.autores on l.id_autor equals a.id
